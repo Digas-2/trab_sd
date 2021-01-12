@@ -1,87 +1,35 @@
-gRPC - An RPC library and framework
-===================================
+Autor:
+Diogo Fernandes 201503723
 
-gRPC is a modern, open source, high-performance remote procedure call (RPC) framework that can run anywhere. gRPC enables client and server applications to communicate transparently, and simplifies the building of connected systems.
+Nesta pasta encontra-se o primeiro trabalho de Sistemas Distribuidos.
 
-<table>
-  <tr>
-    <td><b>Homepage:</b></td>
-    <td><a href="https://grpc.io/">grpc.io</a></td>
-  </tr>
-  <tr>
-    <td><b>Mailing List:</b></td>
-    <td><a href="https://groups.google.com/forum/#!forum/grpc-io">grpc-io@googlegroups.com</a></td>
-  </tr>
-</table>
+O trabalho foi realizado em python e foi sempre executado em python3.
 
-[![Join the chat at https://gitter.im/grpc/grpc](https://badges.gitter.im/grpc/grpc.svg)](https://gitter.im/grpc/grpc?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+Na pasta protos, encontra-se o ficheiro .proto utilizado na implementação de grpc.
+Para qualquer alteração do ficheiro correr o comando na pasta trab_SD/pubsub
 
-# To start using gRPC
+$ python -m grpc_tools.protoc -I../../protos --python_out=. --grpc_python_out=. ../../protos/helloworld.proto
 
-To maximize usability, gRPC supports the standard method for adding dependencies to a user's chosen language (if there is one).
-In most languages, the gRPC runtime comes as a package available in a user's language package manager.
+Na pasta trab_SD/pubsub encontram-se os ficheiros principais:
 
-For instructions on how to use the language-specific gRPC runtime for a project, please refer to these documents
+- pubsusb_server.py
+O broker requesitado no trabalho.
+Tem a possibilidade de registar e autenticar um subscritor
+Lidar com os pedidos de subscrição ou desubscrição de um subscritor.
+Enviar as mensagens antigas ou as correntes para o subscritor
+Receber as mensagens do publisher e enviar diretamente para todos os subscritores ativos ou guardar para os não ativos.
+Capacidade de tracking dos subscritores ativos.
+Regista de qual terminal veio a mensagem e o número interno iterativo,
 
- * [C++](src/cpp): follow the instructions under the `src/cpp` directory
- * [C#](src/csharp): NuGet package `Grpc`
- * [Dart](https://github.com/grpc/grpc-dart): pub package `grpc`
- * [Go](https://github.com/grpc/grpc-go): `go get google.golang.org/grpc`
- * [Java](https://github.com/grpc/grpc-java): Use JARs from Maven Central Repository
- * [Kotlin](https://github.com/grpc/grpc-kotlin): Use JARs from Maven Central Repository
- * [Node](https://github.com/grpc/grpc-node): `npm install grpc`
- * [Objective-C](src/objective-c): Add `gRPC-ProtoRPC` dependency to podspec
- * [PHP](src/php): `pecl install grpc`
- * [Python](src/python/grpcio): `pip install grpcio`
- * [Ruby](src/ruby): `gem install grpc`
- * [WebJS](https://github.com/grpc/grpc-web): follow the grpc-web instructions
 
-Per-language quickstart guides and tutorials can be found in the [documentation section on the grpc.io website](https://grpc.io/docs/). Code examples are available in the [examples](examples) directory.
+- subscriber.py
+O subscritor, que subscreve às tags, e vai realizando pull de novas mensagens, e tem também a possibilidade de ir buscar mensagens antigas dando um T de horas.
+Pode requisitar as tags no inicio após a sua autenticação.
 
-Precompiled bleeding-edge package builds of gRPC `master` branch's `HEAD` are uploaded daily to [packages.grpc.io](https://packages.grpc.io).
+- publisher.py
+Envia as mensagens para o servidor num intervalo conforme a distribuição de Poisson.
+O publisher pode requisitar a lista de tags disponiveis no inicio de execução.
+Pode escolher qual tag quer enviar e a mensagem que quer enviar.
 
-# To start developing gRPC
-
-Contributions are welcome!
-
-Please read [How to contribute](CONTRIBUTING.md) which will guide you through the entire workflow of how to build the source code, how to run the tests, and how to contribute changes to
-the gRPC codebase.
-The "How to contribute" document also contains info on how the contribution process works and contains best practices for creating contributions.
-
-# Troubleshooting
-
-Sometimes things go wrong. Please check out the [Troubleshooting guide](TROUBLESHOOTING.md) if you are experiencing issues with gRPC.
-
-# Performance 
-
-See the [Performance dashboard](https://performance-dot-grpc-testing.appspot.com/explore?dashboard=5652536396611584) for performance numbers of master branch daily builds.
-
-# Concepts
-
-See [gRPC Concepts](CONCEPTS.md)
-
-# About This Repository
-
-This repository contains source code for gRPC libraries implemented in multiple languages written on top of a shared C core library [src/core](src/core).
-
-Libraries in different languages may be in various states of development. We are seeking contributions for all of these libraries:
-
-| Language                | Source                              |
-|-------------------------|-------------------------------------|
-| Shared C [core library] | [src/core](src/core)                |
-| C++                     | [src/cpp](src/cpp)                  |
-| Ruby                    | [src/ruby](src/ruby)                |
-| Python                  | [src/python](src/python)            |
-| PHP                     | [src/php](src/php)                  |
-| C# (core library based) | [src/csharp](src/csharp)            |
-| Objective-C             | [src/objective-c](src/objective-c)  |
-
-| Language                | Source repo                                          |
-|-------------------------|------------------------------------------------------|
-| Java                    | [grpc-java](https://github.com/grpc/grpc-java)       |
-| Kotlin                  | [grpc-kotlin](https://github.com/grpc/grpc-kotlin)   |
-| Go                      | [grpc-go](https://github.com/grpc/grpc-go)           |
-| NodeJS                  | [grpc-node](https://github.com/grpc/grpc-node)       |
-| WebJS                   | [grpc-web](https://github.com/grpc/grpc-web)         |
-| Dart                    | [grpc-dart](https://github.com/grpc/grpc-dart)       |
-| .NET (pure C# impl.)    | [grpc-dotnet](https://github.com/grpc/grpc-dotnet)   |
+- pois.py
+Ficheiro onde é calculado quando deve ser executada a próxima ação tendo em conta a distribuição de poisson.
