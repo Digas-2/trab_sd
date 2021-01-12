@@ -4,7 +4,9 @@ Diogo Fernandes
 
 ### Trabalho 1 Sistemas Distribuidos
 
-Nesta pasta encontra-se o primeiro trabalho de Sistemas Distribuidos.
+Nesta pasta encontra-se o primeiro trabalho de Sistemas Distribuidos mais o código que vem com os projetos de grpc.
+
+O source code realizado por mim encontra-se na pasta Trabalho.
 
 O trabalho foi realizado em python e foi sempre executado em python3.
 
