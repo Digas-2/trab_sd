@@ -1,5 +1,8 @@
-Autor:
-Diogo Fernandes 201503723
+### Autor:
+Diogo Fernandes 
+201503723
+
+### Trabalho 1 Sistemas Distribuidos
 
 Nesta pasta encontra-se o primeiro trabalho de Sistemas Distribuidos.
 
@@ -8,7 +11,9 @@ O trabalho foi realizado em python e foi sempre executado em python3.
 Na pasta protos, encontra-se o ficheiro .proto utilizado na implementação de grpc.
 Para qualquer alteração do ficheiro correr o comando na pasta trab_SD/pubsub
 
-$ python -m grpc_tools.protoc -I../../protos --python_out=. --grpc_python_out=. ../../protos/helloworld.proto
+`$ python -m grpc_tools.protoc -I../../protos --python_out=. --grpc_python_out=. ../../protos/helloworld.proto`
+
+***
 
 Na pasta trab_SD/pubsub encontram-se os ficheiros principais:
 
